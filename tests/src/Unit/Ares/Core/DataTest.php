@@ -43,7 +43,7 @@ final class DataTest extends TestCase
 	public function testJson(): void
 	{
 		$data = self::createData();
-		$encode = json_encode($data);
+		$encode = json_encode($data, JSON_THROW_ON_ERROR);
 		Assert::same((string) $data, $encode);
 		Assert::same('{"active":true,"city":"a","company":"b","created":"2020-12-13T04:05:06+01:00","dissolved":"2021-01-14T05:06:07+01:00","city_district":"c","city_post":"d","in":"e","is_person":false,"legal_form_code":102,"house_number":"f","street":"g","district":null,"tin":null,"vat_payer":false,"zip":"h","country":"j","country_code":"k","nace":["465"],"sources":{"stavZdrojeRes":true}}', $encode);
 	}

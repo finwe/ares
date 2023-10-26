@@ -10,28 +10,29 @@ use stdClass;
 
 class Ares
 {
+
 	use MemoryStorage;
 
-	public function __construct(
-		private Ares\Client $aresClient,
-		private DataBox\ContentProvider $dataBoxContentProvider,
-		private Adis\ContentProvider $adisContentProvider,
-	)
-	{
-	}
+	private Ares\Client $aresClient;
+	private DataBox\ContentProvider $dataBoxContentProvider;
+	private Adis\ContentProvider $adisContentProvider;
 
+	public function __construct(Ares\Client $aresClient, DataBox\ContentProvider $dataBoxContentProvider, Adis\ContentProvider $adisContentProvider)
+	{
+		$this->aresClient = $aresClient;
+		$this->dataBoxContentProvider = $dataBoxContentProvider;
+		$this->adisContentProvider = $adisContentProvider;
+	}
 
 	public function getAdis(): Adis\ContentProvider
 	{
 		return $this->adisContentProvider;
 	}
 
-
 	public function getAresClient(): Ares\Client
 	{
 		return $this->aresClient;
 	}
-
 
 	/**
 	 * @template KeyName
@@ -43,7 +44,6 @@ class Ares
 		return $this->aresContentProviderCache()->loadByIdentificationNumbers($identificationNumbers);
 	}
 
-
 	/**
 	 * @throws IdentificationNumberNotFoundException
 	 */
@@ -52,22 +52,19 @@ class Ares
 		return $this->aresContentProviderCache()->load($in);
 	}
 
-
 	public function loadDataBox(string $in): stdClass
 	{
 		return $this->dataBoxContentProvider->load($in);
 	}
-
 
 	protected function aresContentProvider(): Ares\Core\ContentProvider
 	{
 		return new Ares\Core\ContentProvider(new Ares\Core\JsonToDataTransformer(), $this->getAresClient(), $this->adisContentProvider);
 	}
 
-
 	private function aresContentProviderCache(): Ares\Core\ContentProvider
 	{
-		return $this->memoize(__METHOD__, fn () => $this->aresContentProvider());
+		return $this->memoize(__METHOD__, fn() => $this->aresContentProvider());
 	}
 
 }

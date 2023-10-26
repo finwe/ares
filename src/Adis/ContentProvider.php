@@ -11,8 +11,14 @@ use h4kuna\Ares\Tools\Batch;
 
 final class ContentProvider
 {
-	public function __construct(private Client $client, private StatusBusinessSubjectsTransformer $stdClassTransformer)
+
+	private Client $client;
+	private StatusBusinessSubjectsTransformer $stdClassTransformer;
+
+	public function __construct(Client $client, StatusBusinessSubjectsTransformer $stdClassTransformer)
 	{
+		$this->client = $client;
+		$this->stdClassTransformer = $stdClassTransformer;
 	}
 
 
@@ -32,7 +38,7 @@ final class ContentProvider
 	 */
 	public function statusBusinessSubjects(array $tin): Generator
 	{
-		$duplicity = Batch::checkDuplicities($tin, fn (string $tin) => Helper::normalizeTIN($tin));
+		$duplicity = Batch::checkDuplicities($tin, fn(string $tin) => Helper::normalizeTIN($tin));
 		$chunks = Batch::chunk($duplicity, 100);
 
 		foreach ($chunks as $chunk) {

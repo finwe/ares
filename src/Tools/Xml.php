@@ -11,7 +11,10 @@ use stdClass;
 
 final class Xml
 {
-	public static function toJson(SimpleXMLElement|ResponseInterface $response): stdClass
+	/**
+  * @param \SimpleXMLElement|\Psr\Http\Message\ResponseInterface $response
+  */
+ public static function toJson($response): stdClass
 	{
 		if ($response instanceof ResponseInterface) {
 			$xml = @simplexml_load_string($response->getBody()->getContents());

@@ -6,13 +6,15 @@ use Psr\Http\Message\StreamFactoryInterface;
 
 class ContentProvider
 {
-	public function __construct(
-		private Client $client,
-		private StreamFactoryInterface $streamFactory,
-	)
-	{
-	}
 
+	private Client $client;
+	private StreamFactoryInterface $streamFactory;
+
+	public function __construct(Client $client, StreamFactoryInterface $streamFactory)
+	{
+		$this->client = $client;
+		$this->streamFactory = $streamFactory;
+	}
 
 	public function load(string $in): \stdClass
 	{

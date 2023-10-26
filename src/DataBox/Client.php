@@ -14,15 +14,14 @@ use stdClass;
  */
 final class Client
 {
+
+	private TransportProvider $requestProvider;
 	public static string $url = 'https://www.mojedatovaschranka.cz/sds/ws/call';
 
-
-	public function __construct(
-		private TransportProvider $requestProvider,
-	)
+	public function __construct(TransportProvider $requestProvider)
 	{
+		$this->requestProvider = $requestProvider;
 	}
-
 
 	public function request(StreamInterface $body): stdClass
 	{
@@ -34,7 +33,9 @@ final class Client
 
 		if (isset($data->Message)) {
 			throw new ResultException($data->Message);
-		} elseif (isset($data->Osoba) === false) {
+		}
+
+		if (isset($data->Osoba) === false) {
 			throw new ServerResponseException('No content');
 		}
 

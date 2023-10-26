@@ -13,21 +13,21 @@ use Stringable;
 /**
  * @phpstan-type DataType array<string, mixed>
  */
-class Data implements JsonSerializable, Stringable
+class Data implements JsonSerializable
 {
 	public bool $active;
 
-	public ?string $city;
+	public ?string $city = null;
 
-	public ?string $company;
+	public ?string $company = null;
 
 	public DateTimeImmutable $created;
 
-	public ?DateTimeImmutable $dissolved;
+	public ?DateTimeImmutable $dissolved = null;
 
-	public ?string $city_district;
+	public ?string $city_district = null;
 
-	public ?string $city_post;
+	public ?string $city_post = null;
 
 	public string $in;
 
@@ -35,25 +35,25 @@ class Data implements JsonSerializable, Stringable
 
 	public int $legal_form_code;
 
-	public ?string $house_number;
+	public ?string $house_number = null;
 
-	public ?string $street;
+	public ?string $street = null;
 
-	public ?string $district;
+	public ?string $district = null;
 
 	/**
 	 * <prefix>DIČ
 	 * @todo https://github.com/h4kuna/ares/issues/30#issuecomment-1719170527
 	 */
-	public ?string $tin;
+	public ?string $tin = null;
 
-	public ?bool $vat_payer;
+	public ?bool $vat_payer = null;
 
-	public ?string $zip;
+	public ?string $zip = null;
 
-	public ?string $country;
+	public ?string $country = null;
 
-	public ?string $country_code;
+	public ?string $country_code = null;
 
 	/**
 	 * @var array<string>
@@ -87,7 +87,7 @@ class Data implements JsonSerializable, Stringable
 	/**
 	 * @return array<string, scalar|array<string>>
 	 */
-	public function jsonSerialize(): mixed
+	public function jsonSerialize()
 	{
 		$data = $this->toArray();
 		$data['created'] = Strings::exportDate($this->created);
@@ -103,7 +103,7 @@ class Data implements JsonSerializable, Stringable
 
 	public function __toString()
 	{
-		return (string) json_encode($this);
+		return (string) json_encode($this, JSON_THROW_ON_ERROR);
 	}
 
 

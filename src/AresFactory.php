@@ -13,8 +13,11 @@ use Psr\Http\Message\StreamFactoryInterface;
 
 final class AresFactory
 {
-	private null|GuzzleHttp\Psr7\HttpFactory|HttpFactory $httpFactory = null;
 
+	/**
+	 * @var null|\GuzzleHttp\Psr7\HttpFactory|\h4kuna\Ares\Http\HttpFactory
+	 */
+	private $httpFactory = null;
 
 	public function create(): Ares
 	{
@@ -29,7 +32,6 @@ final class AresFactory
 		return new Ares($aresClient, $dataBoxContentProvider, $adisContentProvider);
 	}
 
-
 	public function createRequestFactory(): RequestFactoryInterface
 	{
 		self::checkGuzzle();
@@ -37,14 +39,12 @@ final class AresFactory
 		return $this->httpFactory ??= class_exists(GuzzleHttp\Psr7\HttpFactory::class) ? new GuzzleHttp\Psr7\HttpFactory() : new HttpFactory();
 	}
 
-
 	public function createClient(): ClientInterface
 	{
 		self::checkGuzzle();
 
 		return new GuzzleHttp\Client();
 	}
-
 
 	public function createStreamFactory(): StreamFactoryInterface
 	{
@@ -54,12 +54,10 @@ final class AresFactory
 		return $factory;
 	}
 
-
 	protected function adisContentProvider(TransportProvider $transportProvider): Adis\ContentProvider
 	{
 		return new Adis\ContentProvider(new Adis\Client($transportProvider), new StatusBusinessSubjectsTransformer());
 	}
-
 
 	public function createTransportProvider(StreamFactoryInterface $streamFactory): TransportProvider
 	{
@@ -67,7 +65,6 @@ final class AresFactory
 		$requestFactory = $this->createRequestFactory();
 		return new TransportProvider($requestFactory, $client, $streamFactory);
 	}
-
 
 	private static function checkGuzzle(): void
 	{

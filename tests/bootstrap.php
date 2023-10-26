@@ -11,7 +11,7 @@ function loadResult(string $name, object $save = null): \stdClass
 		file_put_contents($file, json_encode($save, JSON_PRETTY_PRINT));
 	}
 
-	return json_decode(file_get_contents($file));
+	return json_decode(file_get_contents($file), null, 512, JSON_THROW_ON_ERROR);
 }
 
 

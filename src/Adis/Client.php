@@ -10,13 +10,14 @@ use stdClass;
 
 final class Client
 {
+
+	private TransportProvider $transportProvider;
 	public static string $url = 'https://adisrws.mfcr.cz/adistc/axis2/services/rozhraniCRPDPH.rozhraniCRPDPHSOAP';
 
-
-	public function __construct(private TransportProvider $transportProvider,)
+	public function __construct(TransportProvider $transportProvider)
 	{
+		$this->transportProvider = $transportProvider;
 	}
-
 
 	/**
 	 * @param array<string, string> $chunk
@@ -46,7 +47,7 @@ final class Client
 	{
 		$request = $this->transportProvider->createXmlRequest(self::$url, $xml);
 		$response = $this->transportProvider->response($request);
-		$xml = @simplexml_load_string($response->getBody()->getContents(), namespace_or_prefix: 'soapenv', is_prefix: true);
+		$xml = @simplexml_load_string($response->getBody()->getContents(), 'SimpleXMLElement', 0, 'soapenv', true);
 
 		if ($xml === false || isset($xml->Body->children()->$name) === false) {
 			throw new ServerResponseException(sprintf('Missing tag "%s" in response.', $name));

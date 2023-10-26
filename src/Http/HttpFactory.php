@@ -24,7 +24,6 @@ final class HttpFactory implements RequestFactoryInterface, StreamFactoryInterfa
 		return Utils::streamFor($content);
 	}
 
-
 	public function createStreamFromFile(string $file, string $mode = 'r'): StreamInterface
 	{
 		try {
@@ -40,12 +39,10 @@ final class HttpFactory implements RequestFactoryInterface, StreamFactoryInterfa
 		return Utils::streamFor($resource);
 	}
 
-
 	public function createStreamFromResource($resource): StreamInterface
 	{
 		return Utils::streamFor($resource);
 	}
-
 
 	public function createRequest(string $method, $uri): RequestInterface
 	{

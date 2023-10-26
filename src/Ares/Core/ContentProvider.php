@@ -12,16 +12,18 @@ use h4kuna\Ares\Tools\Batch;
 
 final class ContentProvider
 {
-	private const BATCH = 100; // max identification numbers per request
+	private JsonToDataTransformer $jsonTransformer;
+ private Client $client;
+ private Adis\ContentProvider $adisContentProvider;
+ private const BATCH = 100; // max identification numbers per request
 
 
-	public function __construct(
-		private JsonToDataTransformer $jsonTransformer,
-		private Client $client,
-		private Adis\ContentProvider $adisContentProvider,
-	)
-	{
-	}
+	public function __construct(JsonToDataTransformer $jsonTransformer, Client $client, Adis\ContentProvider $adisContentProvider)
+ {
+     $this->jsonTransformer = $jsonTransformer;
+     $this->client = $client;
+     $this->adisContentProvider = $adisContentProvider;
+ }
 
 
 	/**
